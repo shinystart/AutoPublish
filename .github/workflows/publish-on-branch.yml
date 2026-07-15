@@ -29,13 +29,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore ./SimpleConsoleApp/SimpleConsoleApp.csproj
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build ./SimpleConsoleApp/SimpleConsoleApp.csproj --no-restore -c Release
 
       - name: Publish
-        run: dotnet publish -c Release -o ./publish /p:Version=${{ steps.version.outputs.version }}
+        run: dotnet publish ./SimpleConsoleApp/SimpleConsoleApp.csproj -c Release -o ./publish /p:Version=${{ steps.version.outputs.version }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
