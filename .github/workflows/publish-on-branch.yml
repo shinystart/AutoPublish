@@ -5,7 +5,7 @@ on:
 
 jobs:
   publish:
-    if: startsWith(github.ref_name, 'feature/project-v')
+    if: startsWith(github.ref_name, 'release/v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
