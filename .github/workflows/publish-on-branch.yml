@@ -8,6 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v5
@@ -38,8 +40,13 @@ jobs:
       - name: Publish
         run: dotnet publish ./SimpleConsoleApp/SimpleConsoleApp.csproj -c Release -o ./publish /p:Version=${{ steps.version.outputs.version }}
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v5
+      - name: Zip publish output
+        run: zip -r publish-${{ steps.version.outputs.version }}.zip ./publish
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: publish-${{ steps.version.outputs.version }}
-          path: ./publish
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          files: publish-${{ steps.version.outputs.version }}.zip
+          generate_release_notes: true
