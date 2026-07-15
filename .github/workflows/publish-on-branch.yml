@@ -2,11 +2,10 @@ name: Publish on Branch Creation
 
 on:
   create:
-    branches:
-      - 'feature/project-v*'
 
 jobs:
   publish:
+    if: startsWith(github.ref_name, 'feature/project-v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
